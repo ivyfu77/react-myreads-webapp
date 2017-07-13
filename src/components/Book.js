@@ -4,12 +4,19 @@ class Book extends React.Component {
 
   render() {
     const {book} = this.props;
+    let imgUrl = (book.imageLinks && book.imageLinks.smallThumbnail) ? book.imageLinks.smallThumbnail:"";
+    let authorStr = (book.authors && book.authors.length > 0) ? 
+      book.authors.map((author, index) => {
+        return (
+          (index+1 === book.authors.length) ? author : author+", "
+        );
+      }) : "";
 
     return (
       <li>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+book.imageLinks.smallThumbnail+'")' }}></div>
+            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+imgUrl+'")' }}></div>
             <div className="book-shelf-changer">
               <select>
                 <option value="none" disabled>Move to...</option>
@@ -21,11 +28,7 @@ class Book extends React.Component {
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors.map((author, index) => {
-            return (
-              (index+1 == book.authors.length) ? author : author+", "
-            );
-          })}
+          <div className="book-authors">{authorStr}
           </div>
         </div>
       </li>
