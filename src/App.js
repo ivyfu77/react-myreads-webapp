@@ -7,13 +7,27 @@ import './style/App.css';
 
 class BooksApp extends React.Component {
   state = {
-    mybooks: [],
-    allbooks: []
+    mybooks: []
   }
   componentWillMount() {
     BooksAPI.getAll().then((books) => {
-      console.log(books);
       this.setState({ mybooks: books });
+    })
+  }
+
+  onChangeShelf(e) {
+    e.preventDefault();
+    let self = this;
+    let toShelf = e.target.value;
+    BooksAPI.get(e.target.name).then((book) =>{
+      BooksAPI.update(book, toShelf)
+        .then((res) => {
+          //console.log(res);
+          BooksAPI.getAll().then((books) => {
+            //console.log(books);
+            self.setState({ mybooks: books });
+          })
+        })      
     })
   }
 
@@ -23,9 +37,15 @@ class BooksApp extends React.Component {
         <Route exact path="/" render={() => (
           <Shelves
             initBooks={this.state.mybooks}
+            onChangeShelf={(e) => this.onChangeShelf(e)}
           />
         )} />
-        <Route path="/search" component={Search} />
+        <Route path="/search" render={() => (
+          <Search
+            mybooks={this.state.mybooks}
+            onChangeShelf={(e) => this.onChangeShelf(e)}
+          />
+        )} />
       </div>
     )
   }

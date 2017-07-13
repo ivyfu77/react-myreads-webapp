@@ -9,35 +9,39 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
+    this.modifyShelfInfo(this.props);
+  }
 
+  componentWillReceiveProps(nextProps) {
+    this.modifyShelfInfo(nextProps);
+  }
+
+  modifyShelfInfo(props) {
+    const {mybooks} = props;
     let self = this;
-    BooksAPI.getAll()
-      .then((mybooks) => {
-      BooksAPI.search('Poetry', 100)
-        .then((books) => {
-          if (books && mybooks) {
-            for (let i=0; i<books.length; i++) {
-              let exist = false;
-              mybooks.map((mybook) => {
-                if (mybook.id === books[i].id) {
-                  exist = true;
-                  books[i].shelf = mybook.shelf;
-                }
-              });
-              if (!exist) {
-                books[i].shelf = "none";
+
+    BooksAPI.search('Poetry', 100)
+      .then((books) => {
+        if (books && mybooks) {
+          for (let i=0; i<books.length; i++) {
+            let exist = false;
+            mybooks.map((mybook) => {
+              if (mybook.id === books[i].id) {
+                exist = true;
+                books[i].shelf = mybook.shelf;
               }
+            });
+            if (!exist) {
+              books[i].shelf = "none";
             }
           }
-          if (books && books.length > 0) {
-            self.setState({ 
-              books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail)) 
-            });
-          }
-          
-        })
-        
-      })
+        }
+        if (books && books.length > 0) {
+          self.setState({ 
+            books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail)) 
+          });
+        }
+      })    
   }
 
   render() {
@@ -45,7 +49,10 @@ class Search extends React.Component {
     if(this.state.books.length > 0) {
       mappedBooks = this.state.books.map((book) => {
         return (
-          <Book key={book.id} book={book} />        
+          <Book 
+            key={book.id}
+            book={book}
+            onChangeShelf={this.props.onChangeShelf} />        
         );
       });
     }

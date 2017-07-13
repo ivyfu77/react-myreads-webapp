@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
-import * as BooksAPI from '../utils/BooksAPI';
 
 class Shelves extends React.Component {
   state = {
@@ -16,22 +15,7 @@ class Shelves extends React.Component {
   componentDidMount() {
 
   }
-  onChangeShelf(e) {
-    e.preventDefault();
-    let self = this;
-    let toShelf = e.target.value;
-    BooksAPI.get(e.target.name).then((book) =>{
-      console.log(book);
-      BooksAPI.update(book, toShelf)
-        .then((res) => {
-          console.log(res);
-          BooksAPI.getAll().then((books) => {
-            console.log(books);
-            self.setState({ books });
-          })
-        })      
-    })
-  }
+
 
   render() {
     const {initBooks} = this.props;
@@ -45,7 +29,7 @@ class Shelves extends React.Component {
           <div>
             <BookShelf 
               shelfName="Currently Reading"
-              onChangeShelf={(e) => this.onChangeShelf(e)}
+              onChangeShelf={this.props.onChangeShelf}
               books={
                 (books.length > 0) ? books.filter((book) => (book.shelf === 'currentlyReading')) :
                   initBooks.filter((book) => (book.shelf === 'currentlyReading'))
@@ -53,7 +37,7 @@ class Shelves extends React.Component {
             />
             <BookShelf 
               shelfName="Want to Read"
-              onChangeShelf={(e) => this.onChangeShelf(e)}
+              onChangeShelf={this.props.onChangeShelf}
               books={
                 (books.length > 0) ? books.filter((book) => (book.shelf === 'wantToRead')) :
                   initBooks.filter((book) => (book.shelf === 'wantToRead'))
@@ -61,7 +45,7 @@ class Shelves extends React.Component {
             />
             <BookShelf 
               shelfName="Read"
-              onChangeShelf={(e) => this.onChangeShelf(e)}
+              onChangeShelf={this.props.onChangeShelf}
               books={
                 (books.length > 0) ? books.filter((book) => (book.shelf === 'read')) :
                   initBooks.filter((book) => (book.shelf === 'read'))
