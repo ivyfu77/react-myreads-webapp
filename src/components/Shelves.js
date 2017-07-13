@@ -27,7 +27,7 @@ class Shelves extends React.Component {
           console.log(res);
           BooksAPI.getAll().then((books) => {
             console.log(books);
-            this.setState({ books });
+            self.setState({ books });
           })
         })      
     })

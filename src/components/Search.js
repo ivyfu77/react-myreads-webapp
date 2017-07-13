@@ -9,13 +9,12 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    //TODO: Handle Empty result
+
     let self = this;
     BooksAPI.getAll()
       .then((mybooks) => {
       BooksAPI.search('Poetry', 100)
         .then((books) => {
-          let syncShelfBooks = [];
           if (books && mybooks) {
             for (let i=0; i<books.length; i++) {
               let exist = false;

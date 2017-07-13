@@ -1,6 +1,5 @@
 import React from 'react';
 import ChangeShelf from './ChangeShelf';
-import * as BooksAPI from '../utils/BooksAPI';
 
 class Book extends React.Component {
   componentWillMount() {
