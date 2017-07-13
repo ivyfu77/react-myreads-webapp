@@ -9,12 +9,36 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    BooksAPI.search('l', 100)
-    .then((books) => {
-      if (books) {
-        this.setState({ books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail)) });
-      }
-    })
+    //TODO: Handle Empty result
+    let self = this;
+    BooksAPI.getAll()
+      .then((mybooks) => {
+      BooksAPI.search('Poetry', 100)
+        .then((books) => {
+          let syncShelfBooks = [];
+          if (books && mybooks) {
+            for (let i=0; i<books.length; i++) {
+              let exist = false;
+              mybooks.map((mybook) => {
+                if (mybook.id === books[i].id) {
+                  exist = true;
+                  books[i].shelf = mybook.shelf;
+                }
+              });
+              if (!exist) {
+                books[i].shelf = "none";
+              }
+            }
+          }
+          if (books && books.length > 0) {
+            self.setState({ 
+              books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail)) 
+            });
+          }
+          
+        })
+        
+      })
   }
 
   render() {

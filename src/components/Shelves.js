@@ -14,13 +14,28 @@ class Shelves extends React.Component {
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      console.log(books);
-      this.setState({ books });
+
+  }
+  onChangeShelf(e) {
+    e.preventDefault();
+    let self = this;
+    let toShelf = e.target.value;
+    BooksAPI.get(e.target.name).then((book) =>{
+      console.log(book);
+      BooksAPI.update(book, toShelf)
+        .then((res) => {
+          console.log(res);
+          BooksAPI.getAll().then((books) => {
+            console.log(books);
+            this.setState({ books });
+          })
+        })      
     })
   }
 
   render() {
+    const {initBooks} = this.props;
+    const {books} = this.state;
     return(
       <div className="list-books">
         <div className="list-books-title">
@@ -30,20 +45,32 @@ class Shelves extends React.Component {
           <div>
             <BookShelf 
               shelfName="Currently Reading"
-              books={this.state.books.filter((book) => (book.shelf === 'currentlyReading'))}
+              onChangeShelf={(e) => this.onChangeShelf(e)}
+              books={
+                (books.length > 0) ? books.filter((book) => (book.shelf === 'currentlyReading')) :
+                  initBooks.filter((book) => (book.shelf === 'currentlyReading'))
+              }
             />
             <BookShelf 
               shelfName="Want to Read"
-              books={this.state.books.filter((book) => (book.shelf === 'wantToRead'))}
+              onChangeShelf={(e) => this.onChangeShelf(e)}
+              books={
+                (books.length > 0) ? books.filter((book) => (book.shelf === 'wantToRead')) :
+                  initBooks.filter((book) => (book.shelf === 'wantToRead'))
+              }
             />
             <BookShelf 
               shelfName="Read"
-              books={this.state.books.filter((book) => (book.shelf === 'read'))}
+              onChangeShelf={(e) => this.onChangeShelf(e)}
+              books={
+                (books.length > 0) ? books.filter((book) => (book.shelf === 'read')) :
+                  initBooks.filter((book) => (book.shelf === 'read'))
+              }
             />
           </div>
         </div>
         <div className="open-search">
-          <Link to="/search">Add a book</Link>
+          <Link to="/search" >Add a book</Link>
         </div>
       </div>
     );

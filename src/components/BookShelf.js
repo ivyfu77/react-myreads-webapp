@@ -8,7 +8,10 @@ class BookShelf extends React.Component {
   render() {
     let mappedBooks = this.props.books.map((book) => {
       return (
-        <Book key={book.id} book={book} />        
+        <Book
+          key={book.id}
+          onChangeShelf={this.props.onChangeShelf}
+          book={book} />        
       );
     });
 
