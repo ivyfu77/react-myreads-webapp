@@ -9,39 +9,51 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.modifyShelfInfo(this.props);
+    //this.modifyShelfInfo(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.modifyShelfInfo(nextProps);
+    let query = document.getElementById('search-input').value;
+    this.modifyShelfInfo(nextProps, query);
   }
 
-  modifyShelfInfo(props) {
+  modifyShelfInfo(props, query) {
     const {mybooks} = props;
     let self = this;
 
-    BooksAPI.search('Poetry', 100)
-      .then((books) => {
-        if (books && mybooks) {
-          for (let i=0; i<books.length; i++) {
-            let exist = false;
-            mybooks.map((mybook) => {
-              if (mybook.id === books[i].id) {
-                exist = true;
-                books[i].shelf = mybook.shelf;
+    if (query !== '') {
+      BooksAPI.search(query, 100)
+        .then((books) => {
+          if (books && books.length > 0) {
+            if (mybooks) {
+              for (let i=0; i<books.length; i++) {
+                let exist = false;
+                mybooks.map((mybook) => {
+                  if (mybook.id === books[i].id) {
+                    exist = true;
+                    books[i].shelf = mybook.shelf;
+                  }
+                });
+                if (!exist) {
+                  books[i].shelf = "none";
+                }
               }
-            });
-            if (!exist) {
-              books[i].shelf = "none";
             }
+            self.setState({ 
+              books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail)) 
+            });
+          } else if (books && books.error === 'empty query') {
+            self.setState({ 
+              books: [] 
+            });            
           }
-        }
-        if (books && books.length > 0) {
-          self.setState({ 
-            books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail)) 
-          });
-        }
-      })    
+        })    
+    }
+  }
+
+  onClickSearch() {
+    let query = document.getElementById('search-input').value;
+    this.modifyShelfInfo(this.props, query);
   }
 
   render() {
@@ -50,7 +62,7 @@ class Search extends React.Component {
       mappedBooks = this.state.books.map((book) => {
         return (
           <Book 
-            key={book.id}
+            key={"Book-"+book.id}
             book={book}
             onChangeShelf={this.props.onChangeShelf} />        
         );
@@ -61,12 +73,16 @@ class Search extends React.Component {
         <div className="search-books-bar">
           <Link to="/" className="close-search">Close</Link>
           <div className="search-books-input-wrapper">
-            <input type="text" placeholder="Search by title or author"/>
+            <input id="search-input" type="text" placeholder="Search by title or author"/>
           </div>
+          <div className="search-btn" onClick={() => this.onClickSearch()}></div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">{mappedBooks}</ol>
+          <ol className="books-grid">{
+            (this.state.books.length > 0) ? mappedBooks : "No Results..."
+          }</ol>
         </div>
+        <div className="icon-license">Search Icon made by <a href="http://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
       </div>
     );
   }
