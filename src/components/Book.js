@@ -4,7 +4,7 @@ import StarRatingComponent from 'react-star-rating-component';
 
 class Book extends React.Component {
   componentWillMount() {
-    console.log(this.props.book);
+
   }
 
   render() {
