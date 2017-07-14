@@ -3,7 +3,7 @@ import ChangeShelf from './ChangeShelf';
 
 class Book extends React.Component {
   componentWillMount() {
-
+    console.log(this.props.book);
   }
 
   render() {
@@ -20,7 +20,7 @@ class Book extends React.Component {
       <li>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+imgUrl+'")' }}></div>
+            <a target="_blank" href={book.infoLink}><div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+imgUrl+'")' }}></div></a>
             <ChangeShelf
               shelf={book.shelf}
               bookId={book.id}

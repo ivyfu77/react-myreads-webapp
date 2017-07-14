@@ -7,9 +7,10 @@ class BookShelf extends React.Component {
   }
   render() {
     let mappedBooks = this.props.books.map((book) => {
+      //The Book key in main page will be 'shelfName(without spaces)-bookId'
       return (
         <Book
-          key={book.id}
+          key={this.props.shelfName.replace(/ /g,'')+"-"+book.id}
           onChangeShelf={this.props.onChangeShelf}
           book={book} />        
       );

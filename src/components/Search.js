@@ -18,7 +18,7 @@ class Search extends React.Component {
     let self = this;
 
     if (query !== '') {
-      BooksAPI.search(query, 100)
+      BooksAPI.search(query)
         .then((books) => {
           if (books && books.length > 0) {
             if (mybooks) {
@@ -43,7 +43,10 @@ class Search extends React.Component {
               books: [] 
             });            
           }
-        })    
+        })
+        .catch((err) => {
+          console.error("Something wrong during the search: " + err);
+        })
     }
   }
 
@@ -56,6 +59,7 @@ class Search extends React.Component {
     let mappedBooks;
     if(this.state.books.length > 0) {
       mappedBooks = this.state.books.map((book) => {
+        //The Book key in search page will be 'Book-bookId'
         return (
           <Book 
             key={"Book-"+book.id}
