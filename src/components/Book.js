@@ -1,5 +1,6 @@
 import React from 'react';
 import ChangeShelf from './ChangeShelf';
+import StarRatingComponent from 'react-star-rating-component';
 
 class Book extends React.Component {
   componentWillMount() {
@@ -25,6 +26,14 @@ class Book extends React.Component {
               shelf={book.shelf}
               bookId={book.id}
               onChangeShelf={this.props.onChangeShelf}/>
+          </div>
+          <div style={(book.averageRating) ? {} : {opacity: 0.3}}>
+            <StarRatingComponent
+              name="rate2" 
+              editing={false}
+              starCount={5}
+              value={(book.averageRating) ? book.averageRating : 0}
+            />
           </div>
           <div className="book-title">{book.title}</div>
           <div className="book-authors">{authorStr}
