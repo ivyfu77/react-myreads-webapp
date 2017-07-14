@@ -8,10 +8,6 @@ class Search extends React.Component {
     books: []
   }
 
-  componentDidMount() {
-    //this.modifyShelfInfo(this.props);
-  }
-
   componentWillReceiveProps(nextProps) {
     let query = document.getElementById('search-input').value;
     this.modifyShelfInfo(nextProps, query);
@@ -73,7 +69,11 @@ class Search extends React.Component {
         <div className="search-books-bar">
           <Link to="/" className="close-search">Close</Link>
           <div className="search-books-input-wrapper">
-            <input id="search-input" type="text" placeholder="Search by title or author"/>
+            <input
+              id="search-input"
+              type="text"
+              onKeyDown={(event) => {if(event.keyCode==13) this.onClickSearch()}}
+              placeholder="Search by title or author"/>
           </div>
           <div className="search-btn" onClick={() => this.onClickSearch()}></div>
         </div>
