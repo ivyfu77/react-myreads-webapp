@@ -20,7 +20,7 @@ class BooksApp extends React.Component {
     let self = this;
     let toShelf = e.target.value;
     BooksAPI.get(e.target.name).then((book) =>{
-      BooksAPI.update(book, toShelf)
+      BooksAPI.update(book.id, toShelf)
         .then((res) => {
           //console.log(res);
           BooksAPI.getAll().then((books) => {
