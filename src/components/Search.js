@@ -3,16 +3,23 @@ import { Link } from 'react-router-dom';
 import Book from './Book';
 import * as BooksAPI from '../utils/BooksAPI';
 
+/**
+ * Define the search page component of myReads App
+ */
 class Search extends React.Component {
+
+  // Use state.books to store the books searching results
   state = {
     books: []
   }
 
+  // Will triggle this function when change a book's shelf
   componentWillReceiveProps(nextProps) {
     let query = document.getElementById('search-input').value;
     this.modifyShelfInfo(nextProps, query);
   }
 
+  // Define a function to get the searching results and sync with mybooks
   modifyShelfInfo(props, query) {
     const {mybooks} = props;
     let self = this;
@@ -36,9 +43,11 @@ class Search extends React.Component {
               }
             }
             self.setState({ 
+              // Remove the results without imageLinks
               books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail)) 
             });
           } else if (books && books.error === 'empty query') {
+            // When no result return empty the showing books
             self.setState({ 
               books: [] 
             });            
@@ -50,6 +59,9 @@ class Search extends React.Component {
     }
   }
 
+  // Define a function to handle:
+  // - click search icon
+  // - enter something and press 'enter' key
   onClickSearch() {
     let query = document.getElementById('search-input').value;
     this.modifyShelfInfo(this.props, query);
@@ -76,7 +88,7 @@ class Search extends React.Component {
             <input
               id="search-input"
               type="text"
-              onKeyDown={(event) => {if(event.keyCode==13) this.onClickSearch()}}
+              onKeyDown={(event) => {if(event.keyCode===13) this.onClickSearch()}}
               placeholder="Search by title or author"/>
           </div>
           <div className="search-btn" onClick={() => this.onClickSearch()}></div>

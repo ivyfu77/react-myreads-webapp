@@ -1,12 +1,9 @@
 import React from 'react';
 
+/**
+ * Define the move-to-shelf dropdown list component of each book
+ */
 class ChangeShelf extends React.Component {
-  componentWillMount() {
-
-  }
-  componentDidMount() {
-
-  }
 
   render() {
 

@@ -1,17 +1,20 @@
 import React from 'react';
 import ChangeShelf from './ChangeShelf';
+
+// Import an external package to show the rating of a book
 import StarRatingComponent from 'react-star-rating-component';
 
-class Book extends React.Component {
-  componentWillMount() {
 
-  }
+/**
+ * Define the basic component of each book
+ */
+ class Book extends React.Component {
 
   render() {
     const {book} = this.props;
     let imgUrl = (book.imageLinks && book.imageLinks.smallThumbnail) ? book.imageLinks.smallThumbnail:"";
     let authorStr = (book.authors && book.authors.length > 0) ? 
-      book.authors.map((author, index) => {
+      book.authors.map((author, index) => { // Use map to get all the authors combined string
         return (
           (index+1 === book.authors.length) ? author : author+", "
         );
@@ -27,9 +30,9 @@ class Book extends React.Component {
               bookId={book.id}
               onChangeShelf={this.props.onChangeShelf}/>
           </div>
-          <div style={(book.averageRating) ? {} : {opacity: 0.3}}>
+          <div style={(book.averageRating) ? {} : {opacity: 0.3}}> 
             <StarRatingComponent
-              name="rate2" 
+              name={book.id} 
               editing={false}
               starCount={5}
               value={(book.averageRating) ? book.averageRating : 0}

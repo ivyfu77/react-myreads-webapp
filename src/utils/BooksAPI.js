@@ -22,6 +22,9 @@ export const getAll = () =>
     .then(res => res.json())
     .then(data => data.books)
 
+/**
+ * Ivy: Changed update() param 'book' to 'bookId'
+ */
 export const update = (bookId, shelf) =>
   fetch(`${api}/books/${bookId}`, {
     method: 'PUT',

@@ -2,24 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 
+/**
+ * Define the main page component of myReads App
+ */
 class Shelves extends React.Component {
-  state = {
-    //books is array of book object
-    books: []
-  }
-
-  componentWillMount() {
-
-  }
-
-  componentDidMount() {
-
-  }
-
 
   render() {
-    const {initBooks} = this.props;
-    const {books} = this.state;
+
+    // The changed initBooks will pass by as a props from root BooksApp component
+    const {initBooks} = this.props; 
+
     return(
       <div className="list-books">
         <div className="list-books-title">
@@ -30,26 +22,17 @@ class Shelves extends React.Component {
             <BookShelf 
               shelfName="Currently Reading"
               onChangeShelf={this.props.onChangeShelf}
-              books={
-                (books.length > 0) ? books.filter((book) => (book.shelf === 'currentlyReading')) :
-                  initBooks.filter((book) => (book.shelf === 'currentlyReading'))
-              }
+              books={ initBooks.filter((book) => (book.shelf === 'currentlyReading')) }
             />
             <BookShelf 
               shelfName="Want to Read"
               onChangeShelf={this.props.onChangeShelf}
-              books={
-                (books.length > 0) ? books.filter((book) => (book.shelf === 'wantToRead')) :
-                  initBooks.filter((book) => (book.shelf === 'wantToRead'))
-              }
+              books={ initBooks.filter((book) => (book.shelf === 'wantToRead')) }
             />
             <BookShelf 
               shelfName="Read"
               onChangeShelf={this.props.onChangeShelf}
-              books={
-                (books.length > 0) ? books.filter((book) => (book.shelf === 'read')) :
-                  initBooks.filter((book) => (book.shelf === 'read'))
-              }
+              books={ initBooks.filter((book) => (book.shelf === 'read')) }
             />
           </div>
         </div>

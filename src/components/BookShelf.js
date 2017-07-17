@@ -1,10 +1,11 @@
 import React from 'react';
 import Book from './Book';
 
+/**
+ * Define the shelf component containing title and books in this shelf
+ */
 class BookShelf extends React.Component {
-  componentWillMount() {
 
-  }
   render() {
     let mappedBooks = this.props.books.map((book) => {
       //The Book key in main page will be 'shelfName(without spaces)-bookId'
