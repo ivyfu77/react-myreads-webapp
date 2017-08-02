@@ -21,4 +21,4 @@ There are 3 shelves in main page, can use the dropdown-list at bottom right of e
 #### search page
 ![App Interface](https://ivyfu77.github.io/react-myreads-webapp/screenshots/search-page.png)
 
-Input search query in the input box at the top of page, press "enter" key or click the right search icon to search. Also can use the dropdown-list at bottom right of each book to add to shelf or change the shelf.
+Input search query in the input box at the top of page, start to input or click the right search icon to search. Also can use the dropdown-list at bottom right of each book to add to shelf or change the shelf.
