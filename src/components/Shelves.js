@@ -10,26 +10,27 @@ class Shelves extends React.Component {
   render() {
 
     // The changed initBooks will pass by as a props from root BooksApp component
-    const {initBooks} = this.props; 
+    const {initBooks} = this.props;
 
     return(
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
+        <ivy-btn name="Stencil Button"></ivy-btn>
         <div className="list-books-content">
           <div>
-            <BookShelf 
+            <BookShelf
               shelfName="Currently Reading"
               onChangeShelf={this.props.onChangeShelf}
               books={ initBooks.filter((book) => (book.shelf === 'currentlyReading')) }
             />
-            <BookShelf 
+            <BookShelf
               shelfName="Want to Read"
               onChangeShelf={this.props.onChangeShelf}
               books={ initBooks.filter((book) => (book.shelf === 'wantToRead')) }
             />
-            <BookShelf 
+            <BookShelf
               shelfName="Read"
               onChangeShelf={this.props.onChangeShelf}
               books={ initBooks.filter((book) => (book.shelf === 'read')) }
