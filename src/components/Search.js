@@ -7,7 +7,6 @@ import * as BooksAPI from '../utils/BooksAPI';
  * Define the search page component of myReads App
  */
 class Search extends React.Component {
-
   // Use state.books to store the books searching results
   state = {
     books: []
@@ -35,7 +34,7 @@ class Search extends React.Component {
             if (mybooks) {
               for (let i=0; i<books.length; i++) {
                 let exist = false;
-                mybooks.map((mybook) => {
+                mybooks.forEach((mybook) => {
                   if (mybook.id === books[i].id) {
                     exist = true;
                     books[i].shelf = mybook.shelf;
@@ -46,15 +45,15 @@ class Search extends React.Component {
                 }
               }
             }
-            self.setState({ 
+            self.setState({
               // Remove the results without imageLinks
-              books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail)) 
+              books: books.filter((book) => (book.imageLinks && book.imageLinks.smallThumbnail))
             });
           } else if (books && books.error === 'empty query') {
             // When no result return, empty the showing books
-            self.setState({ 
-              books: [] 
-            });            
+            self.setState({
+              books: []
+            });
           }
         })
         .catch((err) => {
@@ -77,10 +76,10 @@ class Search extends React.Component {
       mappedBooks = this.state.books.map((book) => {
         //The Book key in search page will be 'Book-bookId'
         return (
-          <Book 
+          <Book
             key={"Book-"+book.id}
             book={book}
-            onChangeShelf={this.props.onChangeShelf} />        
+            onChangeShelf={this.props.onChangeShelf} />
         );
       });
     }
@@ -106,7 +105,6 @@ class Search extends React.Component {
       </div>
     );
   }
-
 }
 
 export default Search;
